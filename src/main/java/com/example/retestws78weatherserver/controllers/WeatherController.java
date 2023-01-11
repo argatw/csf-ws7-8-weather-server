@@ -1,5 +1,8 @@
 package com.example.retestws78weatherserver.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +29,9 @@ import com.example.retestws78weatherserver.service.WeatherService;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path="/weather" , produces = MediaType.APPLICATION_JSON_VALUE)
 public class WeatherController {
@@ -38,8 +44,8 @@ public class WeatherController {
     public ResponseEntity<String> getCityWeather(@PathVariable String city) {
         Optional<Weather> o = wService.getWeather(city);
 
-        List<Conditions> conditions = new LinkedList<>();
-        JsonArrayBuilder ab = Json.createArrayBuilder();
+        // List<Conditions> conditions = new LinkedList<>();
+        // JsonArrayBuilder ab = Json.createArrayBuilder();
 
         if(o.isEmpty()) {
             Response r =  new Response();
@@ -55,7 +61,7 @@ public class WeatherController {
         Weather w = o.get();
         // Conditions c = o.get();
 
-        return ResponseEntity.ok(w.toJson().toString());
+        return ResponseEntity.ok(w.weatherToJson().toString());
     }
 
     // for cities-list comp
@@ -64,15 +70,22 @@ public class WeatherController {
         List<Weather> favCities = wService.getListOfCities();
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         for (Weather weather: favCities)
-            arrayBuilder.add(weather.toJson());    
+            arrayBuilder.add(weather.cityToJson());    
         return ResponseEntity.ok(arrayBuilder.build().toString());
     }
 
     //for cities-list comp
     @PostMapping(path = "/addcity", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> insertFavItems(@RequestBody String payload) {
-
+    public ResponseEntity<String> insertFavItems(@RequestBody String payload) throws IOException {
+        
         Weather cityItem = Weather.create(payload);
+            // Weather cityItem = new Weather();
+            // try(InputStream is = new ByteArrayInputStream(payload.getBytes())) {
+            //     JsonReader r = Json.createReader(is);
+            //     JsonObject o = r.readObject();
+            //     cityItem.city = o.getString("city");
+            // }
+                    
 
         wService.insertCities(cityItem);
 

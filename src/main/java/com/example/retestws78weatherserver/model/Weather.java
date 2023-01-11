@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -45,9 +46,25 @@ public class Weather {
     public void setCity(String city) {
         this.city = city;
     }
+
+    // String id = UUID.randomUUID().toString().substring(0,4);
+
+    public JsonObject cityToJson() {
+        // List<Conditions> t = new LinkedList<>();
+        // // JsonObject o = Json.createReader(new StringReader(payload)).readObject();
+
+        // for (int i = 0; i < conditions.size(); i++) {
+        //     t.add(conditions);
+        // }
+        return Json.createObjectBuilder()
+            // .add("id", id)
+            .add("city", city) 
+            // .add("conditions", description) 
+            .build();
+    }
     
 
-    public JsonObject toJson() {
+    public JsonObject weatherToJson() {
         // List<Conditions> t = new LinkedList<>();
         // // JsonObject o = Json.createReader(new StringReader(payload)).readObject();
 
