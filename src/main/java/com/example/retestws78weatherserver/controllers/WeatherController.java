@@ -58,49 +58,49 @@ public class WeatherController {
         return ResponseEntity.ok(w.toJson().toString());
     }
 
-    // // for cities-list comp
-    // @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<String> getFavItems() {
-    //     List<Weather> favCities = wService.getListOfCities();
-    //     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-    //     for (Weather weather: favCities)
-    //         arrayBuilder.add(weather.toJson());    
-    //     return ResponseEntity.ok(arrayBuilder.build().toString());
-    // }
+    // for cities-list comp
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getFavItems() {
+        List<Weather> favCities = wService.getListOfCities();
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        for (Weather weather: favCities)
+            arrayBuilder.add(weather.toJson());    
+        return ResponseEntity.ok(arrayBuilder.build().toString());
+    }
 
-    // //for cities-list comp
-    // @PostMapping(path = "/addcity", consumes = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<String> insertFavItems(@RequestBody String payload) {
+    //for cities-list comp
+    @PostMapping(path = "/addcity", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> insertFavItems(@RequestBody String payload) {
 
-    //     Weather cityItem = Weather.create(payload);
+        Weather cityItem = Weather.create(payload);
 
-    //     wService.insertCities(cityItem);
+        wService.insertCities(cityItem);
 
-    //     JsonObject data = Json.createObjectBuilder()
-    //                 .add("id", cityItem.getId())
-    //                 .add("city", cityItem.getCity())
-    //                 .build();
+        JsonObject data = Json.createObjectBuilder()
+                    // .add("id", cityItem.getId())
+                    .add("city", cityItem.getCity())
+                    .build();
 
 
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(data.toString());
-    // }
+        return ResponseEntity.status(HttpStatus.CREATED).body(data.toString());
+    }
 
-    // // for cities-list comp
-    // @DeleteMapping(path = "/delete")
-    // public ResponseEntity<String> deleteCityItem(@RequestParam String city) {
-    //     try {
-    //         wService.deleteCity(city);
-    //     } catch (Exception e) {
-    //         // TODO: handle exception
-    //         System.out.println(e.getMessage());
-    //         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
-    //     }
+    // for cities-list comp
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<String> deleteCityItem(@RequestParam String city) {
+        try {
+            wService.deleteCity(city);
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
+        }
 
-    //     Response r = new Response();
-    //     r.setMessage("Fav city delete success.");
-    //     r.setStatus(200);
+        Response r = new Response();
+        r.setMessage("Fav city delete success.");
+        r.setStatus(200);
 
-    //     return ResponseEntity.status(HttpStatus.OK).body(r.toJson().toString());
+        return ResponseEntity.status(HttpStatus.OK).body(r.toJson().toString());
 
-    // }
+    }
 }

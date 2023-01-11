@@ -75,7 +75,6 @@ public class Weather {
         Weather weather = new Weather();
         // weather.setId(o.getString("id"));
         weather.setCity(o.getString("city"));
-        // weather.setDescription(o.getString("address"));
         return weather;
 
     }

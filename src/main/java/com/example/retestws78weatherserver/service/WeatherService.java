@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.example.retestws78weatherserver.model.Conditions;
+// import com.example.retestws78weatherserver.model.Conditions;
 import com.example.retestws78weatherserver.model.Weather;
-// import com.example.retestws78weatherserver.repository.WeatherRepo;
+import com.example.retestws78weatherserver.repository.WeatherRepo;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.json.Json;
@@ -28,8 +28,8 @@ import jakarta.json.JsonReader;
 public class WeatherService {
     private Logger logger = Logger.getLogger(WeatherService.class.getName());
 
-    // @Autowired
-    // private WeatherRepo wRepo;
+    @Autowired
+    private WeatherRepo wRepo;
 
     private static final String URL = "https://api.openweathermap.org/data/2.5/weather";
     // SET OPEN_WEATHER_MAP =<your api> //in cmd, no space aft =
@@ -85,20 +85,20 @@ public class WeatherService {
         return Optional.of(w);
     }
 
-    // public void insertCities (Weather weather) {
-    //     // favRepo.insertFavorites(favorites);
-    //     wRepo.insertCity(weather);
-    // }
+    public void insertCities (Weather weather) {
+        // favRepo.insertFavorites(favorites);
+        wRepo.insertCity(weather);
+    }
 
-    // public List<Weather> getListOfCities() {
-    //     // return favRepo.getUserFavoritesItems(email);
-    //     return wRepo.getCities();
-    // }
+    public List<Weather> getListOfCities() {
+        // return favRepo.getUserFavoritesItems(email);
+        return wRepo.getCities();
+    }
 
-    // public void deleteCity(String city) {
-    //     // favRepo.deleteFavoriteItemByUser(email,carparkNum);
-    //     wRepo.deleteCity(city);
-    // }
+    public void deleteCity(String city) {
+        // favRepo.deleteFavoriteItemByUser(email,carparkNum);
+        wRepo.deleteCity(city);
+    }
 
 
 
